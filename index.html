@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EGNR Student Pilot Flight Preparation</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h1>EGNR Student Pilot Flight Preparation</h1>
+
+    <!-- Weather Data Section -->
+    <section id="metar-info">
+        <h2>Current METAR</h2>
+        <div id="metar-summary">
+            <p><strong>Information Letter:</strong> <span id="info-letter"></span></p>
+            <p><strong>Runway:</strong> <span id="runway"></span></p>
+            <p><strong>Visibility:</strong> <span id="visibility"></span></p>
+            <p><strong>Cloud:</strong> <span id="cloud"></span></p>
+            <p><strong>QNH:</strong> <span id="qnh"></span></p>
+        </div>
+        <div id="compass-container">
+            <h3>Wind Direction</h3>
+            <canvas id="wind-compass" width="200" height="200"></canvas>
+            <p><strong>Speed:</strong> <span id="wind-speed"></span></p>
+        </div>
+    </section>
+
+    <!-- Flight Preparation Section -->
+    <section id="flight-prep">
+        <h2>Flight Preparation</h2>
+        <form id="flight-form">
+            <label for="runway-select">Runway:</label>
+            <select id="runway-select">
+                <option value="04">Runway 04</option>
+                <option value="22">Runway 22</option>
+            </select>
+
+            <label for="call-sign">Aircraft Call Sign:</label>
+            <input type="text" id="call-sign" placeholder="Enter Call Sign">
+
+            <label for="fuel-on-board">Fuel on Board (liters):</label>
+            <input type="number" id="fuel-on-board" placeholder="Enter Fuel On Board">
+
+            <label for="fuel-endurance">Fuel Endurance (hours):</label>
+            <input type="number" id="fuel-endurance" placeholder="Enter Fuel Endurance">
+
+            <label for="fuel-uplift">Fuel Uplift (liters):</label>
+            <input type="number" id="fuel-uplift" placeholder="Enter Fuel Uplift">
+
+            <label for="oil-level">Oil Level:</label>
+            <input type="number" id="oil-level" placeholder="Enter Oil Level">
+
+            <label for="oil-uplift">Oil Uplift:</label>
+            <input type="number" id="oil-uplift" placeholder="Enter Oil Uplift">
+        </form>
+    </section>
+
+    <!-- Route and Flight Information -->
+    <section id="route-selection">
+        <h2>Route Selection</h2>
+        <label for="flight-type">Type of Flight:</label>
+        <select id="flight-type">
+            <option value="VFR">VFR</option>
+            <option value="Circuits">Circuits</option>
+        </select>
+
+        <label for="departure-direction">Direction of Departure:</label>
+        <input type="text" id="departure-direction" placeholder="Enter Direction">
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>

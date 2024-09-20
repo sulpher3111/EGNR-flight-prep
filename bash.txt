@@ -1,0 +1,2 @@
+mkdir EGNR-flight-prep
+cd EGNR-flight-prep
