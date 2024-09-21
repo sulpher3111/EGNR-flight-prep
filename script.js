@@ -1,62 +1,96 @@
-// Fetch ATIS data from the Vercel backend
-async function getATISData() {
+window.onload = function () {
+    fetchATISData();
+};
+
+async function fetchATISData() {
+    const atisContainer = document.getElementById("atis-info");
+
+    // Ensure the container element exists
+    if (!atisContainer) {
+        console.error('ATIS container element not found.');
+        return;
+    }
+
     try {
-        // Make the API request
-        const response = await fetch('https://egnr-flight-prep.vercel.app/api/atis');
+        const response = await fetch('/api/atis');
+        if (!response.ok) {
+            throw new Error('Failed to fetch ATIS data');
+        }
+
         const atisData = await response.json();
-
-        // Update the ATIS information in the HTML
-        document.getElementById('info-letter').textContent = atisData.informationLetter;
-        document.getElementById('runway').textContent = atisData.runway;
-        document.getElementById('wind').textContent = `${atisData.windDirection}° at ${atisData.windSpeed} KT`;
-        document.getElementById('visibility').textContent = `${atisData.visibility} meters`;
-        document.getElementById('qnh').textContent = `${atisData.qnh} hPa`;
-
-        // Draw the wind direction on the compass
-        drawCompass(atisData.windDirection);  // Call the function to draw the wind direction
-
+        displayATIS(atisData);
     } catch (error) {
-        console.error('Error fetching ATIS data:', error);
+        atisContainer.innerHTML = '<p>Error fetching ATIS data</p>';
+        console.error("Error fetching ATIS data:", error);
     }
 }
 
-// Function to draw the wind direction on the canvas
-function drawCompass(windDirection) {
-    const canvas = document.getElementById('wind-compass');
-    const ctx = canvas.getContext('2d');
-    const radius = canvas.width / 2;
+function displayATIS(atisData) {
+    const atisContainer = document.getElementById("atis-info");
 
-    // Clear the canvas before drawing
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    if (!atisData || typeof atisData !== 'object') {
+        atisContainer.innerHTML = '<p>Error: Invalid ATIS data received</p>';
+        return;
+    }
 
-    // Draw the outer circle (compass boundary)
-    ctx.beginPath();
-    ctx.arc(radius, radius, radius - 10, 0, 2 * Math.PI);
-    ctx.stroke();
+    // Safely access ATIS data fields and provide fallback if missing
+    const station = atisData.station || 'Unknown';
+    const informationCode = atisData.informationCode || 'Unknown';
+    const runway = atisData.runway || 'Unknown';
+    const windDirection = atisData.wind?.direction || 'Unknown';
+    const windSpeed = atisData.wind?.speed || 'Unknown';
+    const windVariability = atisData.wind?.variability || 'Not reported';
+    const visibility = atisData.visibility || 'Not reported';
+    const weather = atisData.weather || 'Not reported';
+    const cloudLayers = atisData.cloudLayers || 'No data available';
+    const temperature = atisData.temperature || 'Unknown';
+    const dewPoint = atisData.dewPoint || 'Unknown';
+    const qnh = atisData.qnh || 'Unknown';
 
-    // Draw compass directions (N, E, S, W)
-    ctx.font = '16px Arial';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText('N', radius, 15);  // North
-    ctx.fillText('E', canvas.width - 15, radius);  // East
-    ctx.fillText('S', radius, canvas.height - 15);  // South
-    ctx.fillText('W', 15, radius);  // West
+    // Update the DOM with ATIS data
+    atisContainer.innerHTML = `
+        <p><strong>Station:</strong> ${station}</p>
+        <p><strong>Information Code:</strong> ${informationCode}</p>
+        <p><strong>Runway in Use:</strong> ${runway}</p>
+        <p><strong>Wind:</strong> ${windDirection}° at ${windSpeed} KT</p>
+        <p><strong>Wind Variability:</strong> ${windVariability}</p>
+        <p><strong>Visibility:</strong> ${visibility}</p>
+        <p><strong>Weather:</strong> ${weather}</p>
+        <p><strong>Cloud Layers:</strong> ${cloudLayers}</p>
+        <p><strong>Temperature:</strong> ${temperature}°C</p>
+        <p><strong>Dew Point:</strong> ${dewPoint}°C</p>
+        <p><strong>Altimeter (QNH):</strong> ${qnh} hPa</p>
+    `;
 
-    // Convert wind direction degrees to radians
-    const radians = (windDirection - 90) * (Math.PI / 180);  // Adjust to compass orientation
-
-    // Draw the wind direction arrow
-    ctx.beginPath();
-    ctx.moveTo(radius, radius);
-    ctx.lineTo(
-        radius + (radius - 20) * Math.cos(radians),
-        radius + (radius - 20) * Math.sin(radians)
-    );
-    ctx.strokeStyle = '#ff0000';  // Red color for the arrow
-    ctx.lineWidth = 4;
-    ctx.stroke();
+    // Draw wind compass
+    drawWindCompass(windDirection, windSpeed);
 }
 
-// Call the getATISData function when the page loads
-window.onload = getATISData;
+function drawWindCompass(direction, speed) {
+    const canvas = document.getElementById('windCanvas');
+    const context = canvas.getContext('2d');
+
+    // Clear canvas
+    context.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Draw compass circle
+    context.beginPath();
+    context.arc(150, 150, 100, 0, 2 * Math.PI);
+    context.stroke();
+
+    // Draw wind direction
+    if (direction !== 'Unknown') {
+        context.beginPath();
+        context.moveTo(150, 150);
+        const radians = (direction - 90) * (Math.PI / 180);
+        const x = 150 + 100 * Math.cos(radians);
+        const y = 150 + 100 * Math.sin(radians);
+        context.lineTo(x, y);
+        context.strokeStyle = "red";
+        context.stroke();
+    }
+
+    // Display wind speed in knots at center
+    const windKnotsDiv = document.getElementById('wind-knots');
+    windKnotsDiv.innerHTML = `<p><strong>Wind:</strong> ${speed} KT</p>`;
+}
