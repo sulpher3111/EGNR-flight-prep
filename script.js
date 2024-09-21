@@ -1,7 +1,7 @@
 // Fetch ATIS data from the Vercel backend
 async function getATISData() {
     try {
-        const response = await fetch('https://egnr-flight-prep-hiq0okwvm-sulpher3111s-projects.vercel.app/api/atis.js');
+        const response = await fetch('https://egnr-flight-prep-hiq0okwvm-sulpher3111s-projects.vercel.app/api/atis');
         const atisData = await response.json();
 
         // Update the ATIS information on the webpage

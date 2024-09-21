@@ -14,7 +14,6 @@ module.exports = async (req, res) => {
     const visibility = atisText.match(/(\d{4})/)[1];
     const qnh = atisText.match(/Q(\d{4})/)[1];
 
-    // Send the scraped ATIS data as JSON
     res.status(200).json({
       informationLetter,
       runway,
