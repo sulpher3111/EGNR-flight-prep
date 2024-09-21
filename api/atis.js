@@ -2,11 +2,12 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 
 module.exports = async (req, res) => {
-  // Add CORS headers to the response
-  res.setHeader('Access-Control-Allow-Origin', '*');  // Allow all origins
-  res.setHeader('Access-Control-Allow-Methods', 'GET');  // Only allow GET requests
+  // Add CORS headers to allow cross-origin requests from GitHub Pages
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET');
 
   try {
+    // Fetch data from the ATIS source
     const { data } = await axios.get('https://egnr.airbrief.net/');
     const $ = cheerio.load(data);
 
@@ -18,7 +19,7 @@ module.exports = async (req, res) => {
     const visibility = atisText.match(/(\d{4})/)[1];
     const qnh = atisText.match(/Q(\d{4})/)[1];
 
-    // Send the scraped ATIS data as JSON
+    // Send the ATIS data as a JSON response
     res.status(200).json({
       informationLetter,
       runway,
