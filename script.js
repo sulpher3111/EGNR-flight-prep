@@ -1,7 +1,7 @@
+// Fetch ATIS data from the Vercel backend
 async function getATISData() {
     try {
-        // Fetch data from the Vercel backend API
-        const response = await fetch('https://egnr-flight-prep.vercel.app/api/atis');
+        const response = await fetch('https://egnr-flight-prep.vercel.app/api/atis');  // This should be the correct URL
         const atisData = await response.json(); // Parse the JSON response
 
         // Update the ATIS information in the HTML
@@ -15,3 +15,6 @@ async function getATISData() {
         console.error('Error fetching ATIS data:', error);
     }
 }
+
+// Call the function when the page loads
+window.onload = getATISData;
