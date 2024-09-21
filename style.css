@@ -1,40 +1,74 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
     margin: 0;
     padding: 20px;
+    background-color: #f4f4f4;
 }
 
-h1, h2 {
+header {
     text-align: center;
+    margin-bottom: 20px;
 }
 
-#metar-info, #flight-prep, #route-selection {
-    background-color: white;
+h1 {
+    font-size: 36px;
+    color: #333;
+}
+
+h2 {
+    font-size: 18px;
+    color: #777;
+}
+
+#atis-section, #flight-prep {
+    background-color: #ffffff;
     padding: 20px;
-    margin: 20px auto;
-    width: 80%;
+    margin-bottom: 20px;
     border-radius: 8px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-label {
-    display: block;
-    margin: 10px 0 5px;
-}
-
-input, select {
-    width: 100%;
-    padding: 10px;
+h3 {
+    font-size: 24px;
+    color: #444;
     margin-bottom: 10px;
 }
 
-#compass-container {
-    text-align: center;
+form label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+form input, form select, form textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+form button {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #218838;
 }
 
 #wind-compass {
-    margin: 10px auto;
-    border: 0px solid #ccc;
-    border-radius: 50%;
+    margin-top: 20px;
+    text-align: center;
+}
+
+#wind-knots {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 10px;
 }
