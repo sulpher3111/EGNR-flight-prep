@@ -1,10 +1,16 @@
-module.exports = async (req, res) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');  // Allow all origins
-    res.setHeader('Access-Control-Allow-Methods', 'GET');  // Allow only GET requests
 const axios = require('axios');
 const cheerio = require('cheerio');
 
 module.exports = async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');  // Allow any origin
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    
+    if (req.method === 'OPTIONS') {
+        res.status(200).end(); // OPTIONS requests should return 200 without processing the request
+        return;
+    }
+
     try {
         const { data } = await axios.get('https://egnr.airbrief.net/');
         const $ = cheerio.load(data);
