@@ -1,49 +1,47 @@
-// Fetch METAR data from the airbrief API (You would need to replace this with a real API call)
-fetch("https://egnr.airbrief.net/")
-    .then(response => {
-        // Simulate METAR data for demo purposes
-        return {
-            "informationLetter": "A",
-            "runway": "04",
-            "visibility": "10km",
-            "cloud": "Few Clouds",
-            "qnh": "1013",
-            "windDirection": 90,
-            "windSpeed": "15 knots"
-        };
-    })
-    .then(metarData => {
-        // Update the METAR section with the data
-        document.getElementById("info-letter").textContent = metarData.informationLetter;
-        document.getElementById("runway").textContent = metarData.runway;
-        document.getElementById("visibility").textContent = metarData.visibility;
-        document.getElementById("cloud").textContent = metarData.cloud;
-        document.getElementById("qnh").textContent = metarData.qnh;
-        document.getElementById("wind-speed").textContent = metarData.windSpeed;
+// Fetch ATIS data from the backend and update the page
+async function getATISData() {
+    try {
+        const response = await fetch('http://localhost:3000/atis');
+        const atisData = await response.json();
 
-        // Draw wind direction on the compass
-        drawCompass(metarData.windDirection);
-    })
-    .catch(error => console.log(error));
+        // Update the ATIS information on the webpage
+        document.getElementById('info-letter').textContent = atisData.informationLetter;
+        document.getElementById('runway').textContent = atisData.runway;
+        document.getElementById('wind').textContent = `${atisData.windDirection}° at ${atisData.windSpeed} KT`;
+        document.getElementById('visibility').textContent = `${atisData.visibility} meters`;
+        document.getElementById('qnh').textContent = `${atisData.qnh} hPa`;
 
-// Function to draw compass with wind direction
+        // Draw the wind direction on the compass
+        drawCompass(atisData.windDirection);
+    } catch (error) {
+        console.error('Error fetching ATIS data:', error);
+    }
+}
+
+// Function to draw wind direction on the compass
 function drawCompass(degrees) {
     const canvas = document.getElementById('wind-compass');
     const ctx = canvas.getContext('2d');
     const radius = canvas.width / 2;
 
-    // Clear canvas
+    // Clear the canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Draw outer circle
+    // Draw the outer circle
     ctx.beginPath();
     ctx.arc(radius, radius, radius - 10, 0, 2 * Math.PI);
     ctx.stroke();
 
-    // Draw wind direction arrow
-    const radians = (degrees - 90) * (Math.PI / 180);  // Convert degrees to radians and rotate 90 degrees
+    // Convert degrees to radians and rotate 90 degrees to point north
+    const radians = (degrees - 90) * (Math.PI / 180);
     ctx.beginPath();
     ctx.moveTo(radius, radius);
-    ctx.lineTo(radius + (radius - 20) * Math.cos(radians), radius + (radius - 20) * Math.sin(radians));
+    ctx.lineTo(
+        radius + (radius - 20) * Math.cos(radians),
+        radius + (radius - 20) * Math.sin(radians)
+    );
     ctx.stroke();
 }
+
+// Update ATIS information when the page loads
+window.onload = getATISData;

@@ -10,20 +10,19 @@
 
     <h1>EGNR Student Pilot Flight Preparation</h1>
 
-    <!-- Weather Data Section -->
-    <section id="metar-info">
-        <h2>Current METAR</h2>
-        <div id="metar-summary">
-            <p><strong>Information Letter:</strong> <span id="info-letter"></span></p>
-            <p><strong>Runway:</strong> <span id="runway"></span></p>
-            <p><strong>Visibility:</strong> <span id="visibility"></span></p>
-            <p><strong>Cloud:</strong> <span id="cloud"></span></p>
-            <p><strong>QNH:</strong> <span id="qnh"></span></p>
+    <!-- ATIS Data Section -->
+    <section id="atis-info">
+        <h2>Current ATIS Information</h2>
+        <div id="atis-summary">
+            <p><strong>Information Letter:</strong> <span id="info-letter">Loading...</span></p>
+            <p><strong>Runway in Use:</strong> <span id="runway">Loading...</span></p>
+            <p><strong>Wind:</strong> <span id="wind">Loading...</span></p>
+            <p><strong>Visibility:</strong> <span id="visibility">Loading...</span></p>
+            <p><strong>QNH:</strong> <span id="qnh">Loading...</span></p>
         </div>
         <div id="compass-container">
             <h3>Wind Direction</h3>
             <canvas id="wind-compass" width="200" height="200"></canvas>
-            <p><strong>Speed:</strong> <span id="wind-speed"></span></p>
         </div>
     </section>
 
