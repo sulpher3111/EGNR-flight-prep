@@ -1,12 +1,11 @@
-const axios = require('axios');
-const cheerio = require('cheerio');
-
 module.exports = async (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');  // Allow all origins
+  res.setHeader('Access-Control-Allow-Methods', 'GET');  // Allow only GET requests
+
   try {
     const { data } = await axios.get('https://egnr.airbrief.net/');
     const $ = cheerio.load(data);
 
-    // Extract ATIS information from the <p> tag
     const atisText = $('p').first().text().trim();
     const informationLetter = atisText.match(/ATIS (\w)/)[1];
     const runway = atisText.match(/RWY IN USE (\d{2})/)[1];
