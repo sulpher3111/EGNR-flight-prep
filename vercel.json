@@ -1,12 +1,8 @@
 {
     "routes": [
       {
-        "src": "/api/(.*)",
+        "src": "/api/(.*)",  // All /api/ requests will be routed to your backend functions
         "dest": "/api/$1"
-      },
-      {
-        "src": "/(.*)",
-        "dest": "/public/$1"
       }
     ]
   }
