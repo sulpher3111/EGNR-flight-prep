@@ -19,15 +19,14 @@ module.exports = async (req, res) => {
     const visibility = atisText.match(/(\d{4})/)[1];
     const qnh = atisText.match(/Q(\d{4})/)[1];
 
-    // Send the ATIS data along with the raw ATIS text as a JSON response
+    // Send the ATIS data as a JSON response
     res.status(200).json({
       informationLetter,
       runway,
       windDirection: wind[1],
       windSpeed: wind[2],
       visibility,
-      qnh,
-      raw: atisText  // Include raw ATIS text
+      qnh
     });
   } catch (error) {
     console.error('Error fetching ATIS data:', error);

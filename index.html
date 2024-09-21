@@ -10,26 +10,15 @@
 
     <h1>EGNR Student Pilot Flight Preparation</h1>
 
-    <!-- Display today's date, UTC time, and UK time -->
-    <section id="time-info">
-        <p><strong>Today's Date:</strong> <span id="today-date">Loading...</span></p>
-        <p><strong>Current UTC Time:</strong> <span id="utc-time">Loading...</span></p>
-        <p><strong>Current UK Time:</strong> <span id="uk-time">Loading...</span></p>
-    </section>
-
     <!-- ATIS Data Section -->
     <section id="atis-info">
         <h2>Current ATIS Information</h2>
         <div id="atis-summary">
-            <p><strong>ATIS Time:</strong> <span id="atis-time">Loading...</span></p>
             <p><strong>Information Letter:</strong> <span id="info-letter">Loading...</span></p>
             <p><strong>Runway in Use:</strong> <span id="runway">Loading...</span></p>
-            <p><strong>Runway Condition Codes:</strong> <span id="runway-condition">Loading...</span></p>
-            <p><strong>Cloud Base:</strong> <span id="cloud-base">Loading...</span></p>
+            <p><strong>Wind:</strong> <span id="wind">Loading...</span></p>
             <p><strong>Visibility:</strong> <span id="visibility">Loading...</span></p>
-            <p><strong>Temperature / Dew Point:</strong> <span id="temp-dewpoint">Loading...</span></p>
             <p><strong>QNH:</strong> <span id="qnh">Loading...</span></p>
-            <p><strong>Additional Info:</strong> <span id="free-text">Loading...</span></p>
         </div>
 
         <!-- Wind Compass -->
@@ -37,21 +26,6 @@
             <h3>Wind Direction</h3>
             <canvas id="wind-compass" width="200" height="200"></canvas>
         </div>
-    </section>
-
-    <!-- Forecast and Weather Warnings -->
-    <section id="forecast-warnings">
-        <h2>Forecast and Weather Warnings</h2>
-        <p><strong>Forecast:</strong> <span id="forecast">Loading...</span></p>
-        <p><strong>Weather Warnings:</strong> <span id="weather-warnings">Loading...</span></p>
-    </section>
-
-    <!-- NOTAMs Section -->
-    <section id="notams">
-        <h2>NOTAMs</h2>
-        <ul id="notam-list">
-            <!-- NOTAMs will be populated here -->
-        </ul>
     </section>
 
     <script src="script.js"></script>
