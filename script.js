@@ -68,8 +68,15 @@ function displayATIS(atisData) {
 
 function drawWindCompass(direction, speed) {
     const canvas = document.getElementById('windCanvas');
-    const context = canvas.getContext('2d');
+    const windKnotsDiv = document.getElementById('wind-knots');
 
+    // Ensure canvas and wind-knots elements exist
+    if (!canvas || !windKnotsDiv) {
+        console.error('Wind compass or wind-knots element not found.');
+        return;
+    }
+
+    const context = canvas.getContext('2d');
     // Clear canvas
     context.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -90,7 +97,6 @@ function drawWindCompass(direction, speed) {
         context.stroke();
     }
 
-    // Display wind speed in knots at center
-    const windKnotsDiv = document.getElementById('wind-knots');
-    windKnotsDiv.innerHTML = `<p><strong>Wind:</strong> ${speed} KT</p>`;
+    // Update wind speed in knots at the center
+    windKnotsDiv.textContent = `Wind: ${speed} KT`;
 }
