@@ -1,18 +1,16 @@
-// Fetch ATIS data from the Vercel backend
 async function getATISData() {
     try {
+        // Fetch data from the Vercel backend API
         const response = await fetch('https://egnr-flight-prep.vercel.app/api/atis');
-        const atisData = await response.json();
+        const atisData = await response.json(); // Parse the JSON response
 
-        // Update the ATIS information on the webpage
+        // Update the ATIS information in the HTML
         document.getElementById('info-letter').textContent = atisData.informationLetter;
         document.getElementById('runway').textContent = atisData.runway;
         document.getElementById('wind').textContent = `${atisData.windDirection}° at ${atisData.windSpeed} KT`;
         document.getElementById('visibility').textContent = `${atisData.visibility} meters`;
         document.getElementById('qnh').textContent = `${atisData.qnh} hPa`;
 
-        // Draw the wind direction on the compass (if applicable)
-        drawCompass(atisData.windDirection);
     } catch (error) {
         console.error('Error fetching ATIS data:', error);
     }
