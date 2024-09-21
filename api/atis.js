@@ -1,3 +1,6 @@
+module.exports = async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');  // Allow all origins
+    res.setHeader('Access-Control-Allow-Methods', 'GET');  // Allow only GET requests
 const axios = require('axios');
 const cheerio = require('cheerio');
 
