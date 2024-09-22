@@ -37,10 +37,10 @@ function parseATIS(atisRaw) {
     const wind = atisRaw.match(/(\d{3})(\d{2})KT/);
     const variability = atisRaw.match(/(\d{3})V(\d{3})/);
 
-    // Parsing visibility (9999 and optional SW direction)
-    const visibility = atisRaw.match(/(\d{4})(SW|SE|NW|NE)?/g); // Handles multiple visibility values
+    // Parsing visibility (correct regex to avoid capturing unrelated numbers)
+    const visibilityMatches = atisRaw.match(/(\b\d{4}\b)(SW|SE|NW|NE)?/g);
 
-    // Parsing weather (focus on weather conditions like RA for rain)
+    // Parsing weather
     const weather = atisRaw.match(/(-|\+|VC)?(RA|DZ|SN|SG|IC|PL|GR|GS|BR|FG|FU|VA|DU|SA|HZ|PY|PO|SQ|FC|SS|DS)/);
 
     // Parsing cloud layers
@@ -63,9 +63,9 @@ function parseATIS(atisRaw) {
     };
 
     // Handle multiple visibility values (e.g., 9999 and 8000SW)
-    if (visibility) {
-        atis.visibility = visibility.map(v => {
-            const match = v.match(/(\d{4})(SW|SE|NW|NE)?/);
+    if (visibilityMatches) {
+        atis.visibility = visibilityMatches.map(v => {
+            const match = v.match(/(\b\d{4}\b)(SW|SE|NW|NE)?/);
             if (match) {
                 return match[2] ? `${match[1]} meters ${match[2]}` : `${match[1]} meters`;
             }
