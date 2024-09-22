@@ -34,46 +34,66 @@
         <!-- Flight Preparation Inputs on the right -->
         <section id="flight-prep">
             <form id="flight-form">
-                <!-- Type of Flight -->
-                <label for="flight-type">Type of Flight</label>
-                <select id="flight-type" name="flight-type">
-                    <option value="Circuits">Circuits</option>
-                    <option value="VFR">VFR</option>
-                </select>
+                <div class="grid-container">
+                    <!-- Type of Flight -->
+                    <div>
+                        <label for="flight-type">Type of Flight</label>
+                        <select id="flight-type" name="flight-type">
+                            <option value="Circuits">Circuits</option>
+                            <option value="VFR">VFR</option>
+                        </select>
+                    </div>
 
-                <!-- Runway Selection -->
-                <label for="runway">Runway</label>
-                <select id="runway" name="runway">
-                    <option value="22">22</option>
-                    <option value="04">04</option>
-                </select>
+                    <!-- Runway Selection -->
+                    <div>
+                        <label for="runway">Runway</label>
+                        <select id="runway" name="runway">
+                            <option value="22">22</option>
+                            <option value="04">04</option>
+                        </select>
+                    </div>
 
-                <!-- Fuel Endurance -->
-                <label for="fuel-endurance">Fuel Endurance (hours)</label>
-                <input type="number" id="fuel-endurance" name="fuel-endurance">
+                    <!-- Fuel Endurance -->
+                    <div>
+                        <label for="fuel-endurance">Fuel Endurance (hours)</label>
+                        <input type="number" id="fuel-endurance" name="fuel-endurance">
+                    </div>
 
-                <!-- Time on Route -->
-                <label for="time-on-route">Time on Route (hours)</label>
-                <input type="number" id="time-on-route" name="time-on-route">
+                    <!-- Time on Route -->
+                    <div>
+                        <label for="time-on-route">Time on Route (hours)</label>
+                        <input type="number" id="time-on-route" name="time-on-route">
+                    </div>
 
-                <!-- Departure Time -->
-                <label for="departure-time">Time of Departure (UTC)</label>
-                <input type="time" id="departure-time" name="departure-time">
+                    <!-- Departure Time -->
+                    <div>
+                        <label for="departure-time">Time of Departure (UTC)</label>
+                        <input type="time" id="departure-time" name="departure-time">
+                    </div>
 
-                <!-- Student Name -->
-                <label for="student-name">Student Name</label>
-                <input type="text" id="student-name" name="student-name">
+                    <!-- Student Name -->
+                    <div>
+                        <label for="student-name">Student Name</label>
+                        <input type="text" id="student-name" name="student-name">
+                    </div>
 
-                <!-- Instructor Name -->
-                <label for="instructor-name">Instructor Name</label>
-                <input type="text" id="instructor-name" name="instructor-name">
+                    <!-- Instructor Name -->
+                    <div>
+                        <label for="instructor-name">Instructor Name</label>
+                        <input type="text" id="instructor-name" name="instructor-name">
+                    </div>
 
-                <!-- Lesson Briefing -->
-                <label for="lesson-briefing">Lesson Briefing</label>
-                <textarea id="lesson-briefing" name="lesson-briefing"></textarea>
+                    <!-- Lesson Briefing (takes up two columns) -->
+                    <div class="full-width">
+                        <label for="lesson-briefing">Lesson Briefing</label>
+                        <textarea id="lesson-briefing" name="lesson-briefing"></textarea>
+                    </div>
+                </div>
 
                 <!-- Button to create PDF -->
-                <button type="button" id="create-pdf">Create</button>
+                <div class="full-width">
+                    <button type="button" id="create-pdf">Create</button>
+                </div>
             </form>
         </section>
     </div>
