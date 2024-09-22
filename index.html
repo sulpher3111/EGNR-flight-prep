@@ -9,59 +9,70 @@
 </head>
 <body>
 
+    <!-- Header -->
     <header>
         <h1>Student Pilot Flight Preparation</h1>
         <h2>Merseyflight - Hawarden Airport EGNR</h2>
     </header>
 
-    <!-- ATIS Section -->
+    <!-- ATIS Information Section -->
     <section id="atis-section">
         <h3>ATIS Information</h3>
         <div id="atis-info">
+            <!-- Placeholder for ATIS Data -->
             <p>Loading ATIS information...</p>
         </div>
     </section>
 
-    <!-- Runway-Wind Diagram -->
+    <!-- Runway-Wind Diagram Section -->
     <section id="runway-wind-diagram">
         <h3>Runway and Wind Information</h3>
         <canvas id="runwayCanvas" width="400" height="300"></canvas>
     </section>
 
-    <!-- Flight Preparation Form -->
+    <!-- Flight Preparation Form Section -->
     <section id="flight-prep">
         <h3>Flight Preparation</h3>
         <form id="flight-form">
+            <!-- Type of Flight -->
             <label for="flight-type">Type of Flight</label>
             <select id="flight-type" name="flight-type">
                 <option value="Circuits">Circuits</option>
                 <option value="VFR">VFR</option>
             </select>
 
+            <!-- Runway Selection -->
             <label for="runway">Runway</label>
             <select id="runway" name="runway">
                 <option value="22">22</option>
                 <option value="04">04</option>
             </select>
 
+            <!-- Fuel Endurance -->
             <label for="fuel-endurance">Fuel Endurance (hours)</label>
             <input type="number" id="fuel-endurance" name="fuel-endurance">
 
+            <!-- Time on Route -->
             <label for="time-on-route">Time on Route (hours)</label>
             <input type="number" id="time-on-route" name="time-on-route">
 
+            <!-- Departure Time -->
             <label for="departure-time">Time of Departure (UTC)</label>
             <input type="time" id="departure-time" name="departure-time">
 
+            <!-- Student Name -->
             <label for="student-name">Student Name</label>
             <input type="text" id="student-name" name="student-name">
 
+            <!-- Instructor Name -->
             <label for="instructor-name">Instructor Name</label>
             <input type="text" id="instructor-name" name="instructor-name">
 
+            <!-- Lesson Briefing -->
             <label for="lesson-briefing">Lesson Briefing</label>
             <textarea id="lesson-briefing" name="lesson-briefing"></textarea>
 
+            <!-- Submit Button -->
             <button type="submit">Submit</button>
         </form>
     </section>
