@@ -9,7 +9,9 @@ async function fetchATISData() {
         const response = await fetch('https://egnr-flight-prep.vercel.app/api/atis');
         const atisData = await response.json();
         displayATIS(atisData);
-        drawRunwayWindDiagram(atisData.runway, atisData.wind);
+
+        // Remove or comment out the line below since the runway diagram is no longer needed.
+        // drawRunwayWindDiagram(atisData.runway, atisData.wind);
     } catch (error) {
         atisContainer.innerHTML = '<p>Error fetching ATIS data</p>';
         console.error("Error fetching ATIS data:", error);
@@ -24,7 +26,7 @@ function displayATIS(atisData) {
         return;
     }
 
-    // Display ATIS horizontally (in a single line)
+    // Display ATIS information horizontally
     atisContainer.innerHTML = `
         <p>
             <strong>Station:</strong> ${atisData.station} &nbsp; | 
@@ -43,4 +45,3 @@ function displayATIS(atisData) {
         </p>
     `;
 }
-
