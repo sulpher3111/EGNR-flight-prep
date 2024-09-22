@@ -12,7 +12,8 @@ async function fetchATISData() {
     }
 
     try {
-        const response = await fetch('/api/atis');
+        // Use the full URL to your Vercel-deployed ATIS API endpoint
+        const response = await fetch('https://egnr-flight-prep.vercel.app/api/atis');
         if (!response.ok) {
             throw new Error('Failed to fetch ATIS data');
         }
