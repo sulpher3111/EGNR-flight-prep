@@ -13,47 +13,67 @@ header {
 
 h1 {
     font-size: 32px;
-    color: #333;
+    color: #003366;
 }
 
 h2 {
     font-size: 16px;
-    color: #555;
+    color: #00509E;
     margin-top: -10px;
 }
 
-/* ATIS Section - Compact Horizontal Display */
-#atis-info {
-    font-size: 14px;
-    line-height: 1.5;
-    background-color: #f9f9f9;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ddd;
-    margin-bottom: 20px;
-    text-align: center; /* Display ATIS horizontally */
+/* Main container to hold METAR widget and flight inputs side by side */
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-top: 20px;
+    gap: 20px;
 }
 
-/* General Responsive Adjustments */
-@media (max-width: 600px) {
-    body {
-        padding: 10px;
-    }
+/* METAR widget section */
+#metar-taf-widget {
+    background-color: #E5EFFF;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    width: 300px;
+}
 
-    header {
-        margin-bottom: 15px;
-    }
+/* Flight Preparation Inputs styling */
+#flight-prep {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    width: 350px;
+}
 
-    h1 {
-        font-size: 28px;
-    }
+#flight-prep label {
+    font-weight: bold;
+    color: #003366;
+    margin-top: 10px;
+}
 
-    h2 {
-        font-size: 14px;
-    }
+#flight-prep input, #flight-prep select, #flight-prep textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
 
-    #atis-info {
-        font-size: 12px;
-    }
+#flight-prep button {
+    background-color: #00509E;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
 
+#flight-prep button:hover {
+    background-color: #003366;
 }
