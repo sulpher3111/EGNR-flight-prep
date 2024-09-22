@@ -46,36 +46,20 @@ function drawRunwayWindDiagram(runway, wind) {
     const context = canvas.getContext('2d');
     context.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Runway orientation (e.g., 04/22 runway)
-    let runwayAngle;
-    if (runway === "04") {
-        runwayAngle = 40; // Runway 04 orientation
-    } else if (runway === "22") {
-        runwayAngle = 220; // Runway 22 orientation
-    } else {
-        runwayAngle = 90; // Default orientation for 09/27, just in case
-    }
-
-    // Draw runway
+    // Fixed Runway 04/22 Orientation
     const runwayLength = 160;
     const runwayWidth = 20;
 
-    // Translate to center of canvas and rotate to match runway angle
-    context.save();
-    context.translate(canvas.width / 2, canvas.height / 2);
-    context.rotate((runwayAngle - 90) * Math.PI / 180); // Rotate the canvas by runway angle
-
+    // Draw static horizontal runway (04/22)
     context.fillStyle = "gray";
-    context.fillRect(-runwayLength / 2, -runwayWidth / 2, runwayLength, runwayWidth); // Draw horizontal runway
+    context.fillRect((canvas.width - runwayLength) / 2, (canvas.height - runwayWidth) / 2, runwayLength, runwayWidth);
 
-    // Restore context to avoid affecting wind arrow
-    context.restore();
-
-    // Label runway direction
+    // Add runway numbers (04 and 22)
     context.font = "16px Arial";
     context.fillStyle = "black";
     context.textAlign = "center";
-    context.fillText(`Runway ${runway}`, canvas.width / 2, canvas.height / 2 - 30);
+    context.fillText("04", canvas.width / 2 - runwayLength / 2 + 15, canvas.height / 2 - 10); // Runway 04
+    context.fillText("22", canvas.width / 2 + runwayLength / 2 - 15, canvas.height / 2 - 10); // Runway 22
 
     // Wind direction
     const windDirection = parseInt(wind.direction, 10);
