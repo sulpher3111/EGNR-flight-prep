@@ -22,7 +22,7 @@ h2 {
     margin-top: -10px;
 }
 
-/* Main container to hold METAR widget and flight inputs side by side */
+/* Main container to hold METAR widget, ATIS data, and flight inputs */
 .container {
     display: flex;
     justify-content: space-between;
@@ -38,6 +38,18 @@ h2 {
     border-radius: 10px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     width: 300px;
+}
+
+/* ATIS Information Styling */
+#atis-info {
+    font-size: 12px;
+    line-height: 1.5;
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    width: 300px;
+    text-align: left;
 }
 
 /* Flight Preparation Inputs styling */

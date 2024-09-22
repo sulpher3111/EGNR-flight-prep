@@ -15,7 +15,7 @@
         <h2>Merseyflight - Hawarden Airport EGNR</h2>
     </header>
 
-    <!-- Main container for METAR widget and flight preparation inputs -->
+    <!-- Main container for METAR widget, ATIS data, and flight preparation inputs -->
     <div class="container">
         <!-- METAR-Taf.com Embedded Widget Section on the left -->
         <section id="metar-taf-widget">
@@ -23,6 +23,12 @@
                 METAR Hawarden Airport
             </a>
             <script async defer crossorigin="anonymous" src="https://metar-taf.com/embed-js/EGNR?qnh=hPa&rh=dp&target=bshnnDk2"></script>
+        </section>
+
+        <!-- ATIS Information Section -->
+        <section id="atis-info">
+            <!-- Placeholder for ATIS Data -->
+            <p>Loading ATIS information...</p>
         </section>
 
         <!-- Flight Preparation Inputs on the right -->
@@ -71,7 +77,6 @@
             </form>
         </section>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 </body>
 </html>
