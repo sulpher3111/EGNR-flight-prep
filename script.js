@@ -10,8 +10,6 @@ async function fetchATISData() {
         const atisData = await response.json();
         displayATIS(atisData);
 
-        // Remove or comment out the line below since the runway diagram is no longer needed.
-        // drawRunwayWindDiagram(atisData.runway, atisData.wind);
     } catch (error) {
         atisContainer.innerHTML = '<p>Error fetching ATIS data</p>';
         console.error("Error fetching ATIS data:", error);
