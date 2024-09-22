@@ -41,40 +41,66 @@ function displayATIS(atisData) {
     `;
 }
 
-// New function to draw the runway-wind diagram
 function drawRunwayWindDiagram(runway, wind) {
     const canvas = document.getElementById('runwayCanvas');
     const context = canvas.getContext('2d');
     context.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Draw runway
-    context.fillStyle = "gray";
-    context.fillRect(120, 100, 160, 20); // Horizontal runway
+    // Runway orientation (e.g., 04/22 runway)
+    let runwayAngle;
+    if (runway === "04") {
+        runwayAngle = 40; // Runway 04 orientation
+    } else if (runway === "22") {
+        runwayAngle = 220; // Runway 22 orientation
+    } else {
+        runwayAngle = 90; // Default orientation for 09/27, just in case
+    }
 
-    // Draw runway label
-    context.fillStyle = "black";
+    // Draw runway
+    const runwayLength = 160;
+    const runwayWidth = 20;
+
+    // Translate to center of canvas and rotate to match runway angle
+    context.save();
+    context.translate(canvas.width / 2, canvas.height / 2);
+    context.rotate((runwayAngle - 90) * Math.PI / 180); // Rotate the canvas by runway angle
+
+    context.fillStyle = "gray";
+    context.fillRect(-runwayLength / 2, -runwayWidth / 2, runwayLength, runwayWidth); // Draw horizontal runway
+
+    // Restore context to avoid affecting wind arrow
+    context.restore();
+
+    // Label runway direction
     context.font = "16px Arial";
-    context.fillText(`Runway ${runway}`, 150, 90);
+    context.fillStyle = "black";
+    context.textAlign = "center";
+    context.fillText(`Runway ${runway}`, canvas.width / 2, canvas.height / 2 - 30);
+
+    // Wind direction
+    const windDirection = parseInt(wind.direction, 10);
+    const radians = (windDirection - 90) * (Math.PI / 180); // Adjust for wind direction
+
+    // Arrow length for wind
+    const arrowLength = 80;
+
+    // Calculate wind arrow endpoint
+    const windX = canvas.width / 2 + arrowLength * Math.cos(radians);
+    const windY = canvas.height / 2 + arrowLength * Math.sin(radians);
 
     // Draw wind arrow
-    const windDirection = parseInt(wind.direction, 10);
-    const radians = (windDirection - 90) * (Math.PI / 180);
-    const arrowLength = 80;
-    const x = 200 + arrowLength * Math.cos(radians);
-    const y = 110 + arrowLength * Math.sin(radians);
-
     context.beginPath();
-    context.moveTo(200, 110); // Starting point at the center of the runway
-    context.lineTo(x, y); // Draw arrow line
+    context.moveTo(canvas.width / 2, canvas.height / 2); // Start from runway center
+    context.lineTo(windX, windY); // Draw wind direction arrow
     context.strokeStyle = "red";
     context.lineWidth = 2;
     context.stroke();
 
-    // Add arrowhead
+    // Draw wind arrowhead
     context.beginPath();
-    context.moveTo(x, y);
-    context.lineTo(x - 10 * Math.cos(radians + Math.PI / 6), y - 10 * Math.sin(radians + Math.PI / 6));
-    context.lineTo(x - 10 * Math.cos(radians - Math.PI / 6), y - 10 * Math.sin(radians - Math.PI / 6));
+    context.moveTo(windX, windY);
+    context.lineTo(windX - 10 * Math.cos(radians + Math.PI / 6), windY - 10 * Math.sin(radians + Math.PI / 6));
+    context.lineTo(windX - 10 * Math.cos(radians - Math.PI / 6), windY - 10 * Math.sin(radians - Math.PI / 6));
     context.closePath();
     context.fillStyle = "red";
     context.fill();
