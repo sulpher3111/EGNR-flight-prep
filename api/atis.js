@@ -2,12 +2,12 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 
 module.exports = async (req, res) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');  // Allow any origin
+    res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-    
+
     if (req.method === 'OPTIONS') {
-        res.status(200).end(); // OPTIONS requests should return 200 without processing the request
+        res.status(200).end();
         return;
     }
 
@@ -28,15 +28,31 @@ module.exports = async (req, res) => {
 function parseATIS(atisRaw) {
     const atis = {};
 
+    // Parsing station
     const station = atisRaw.match(/^(EGNR)/);
     const informationCode = atisRaw.match(/ATIS ([A-Z])/);
     const runway = atisRaw.match(/RWY IN USE (\d{2})/);
+
+    // Parsing wind
     const wind = atisRaw.match(/(\d{3})(\d{2})KT/);
     const variability = atisRaw.match(/(\d{3})V(\d{3})/);
-    const visibility = atisRaw.match(/(\d{4})/);
+
+    // Parsing visibility
+    const visibility = atisRaw.match(/(\d{4})\s?(SW|SE|NW|NE)?/g); // Handles multiple visibility values
+
+    // Parsing weather
+    const weather = atisRaw.match(/(-|\+|VC)?(RA|DZ|SN|SG|IC|PL|GR|GS|BR|FG|FU|VA|DU|SA|HZ|PY|PO|SQ|FC|SS|DS)/);
+
+    // Parsing cloud layers
+    const cloud = atisRaw.match(/(BKN|SCT|OVC)(\d{3})/);
+
+    // Parsing temperature and dew point
     const temperatureDewPoint = atisRaw.match(/(\d{2})\/(\d{2})/);
+
+    // Parsing altimeter (QNH)
     const qnh = atisRaw.match(/Q(\d{4})/);
 
+    // Assign values to the object
     atis.station = station ? station[1] : 'Unknown';
     atis.informationCode = informationCode ? informationCode[1] : 'Unknown';
     atis.runway = runway ? runway[1] : 'Unknown';
@@ -45,10 +61,67 @@ function parseATIS(atisRaw) {
         speed: wind ? wind[2] : 'Unknown',
         variability: variability ? `Variable between ${variability[1]}° and ${variability[2]}°` : 'No variability'
     };
-    atis.visibility = visibility ? `${visibility[1]} meters` : 'Not reported';
+
+    // Handle multiple visibility values (e.g., 9999 and 8000SW)
+    if (visibility) {
+        atis.visibility = visibility.map(v => v.trim()).join(', ');
+    } else {
+        atis.visibility = 'Not reported';
+    }
+
+    // Handle weather parsing
+    if (weather) {
+        const intensity = weather[1] ? (weather[1] === '+' ? 'Heavy ' : 'Light ') : '';
+        const condition = getWeatherCondition(weather[2]);
+        atis.weather = intensity + condition;
+    } else {
+        atis.weather = 'Not reported';
+    }
+
+    // Handle cloud layers
+    if (cloud) {
+        atis.cloudLayers = `${getCloudCover(cloud[1])} at ${cloud[2]}00 feet`;
+    } else {
+        atis.cloudLayers = 'No data available';
+    }
+
     atis.temperature = temperatureDewPoint ? temperatureDewPoint[1] : 'Unknown';
     atis.dewPoint = temperatureDewPoint ? temperatureDewPoint[2] : 'Unknown';
     atis.qnh = qnh ? qnh[1] : 'Unknown';
 
     return atis;
+}
+
+function getWeatherCondition(code) {
+    const weatherConditions = {
+        RA: 'Rain',
+        SN: 'Snow',
+        BR: 'Mist',
+        FG: 'Fog',
+        FU: 'Smoke',
+        HZ: 'Haze',
+        DZ: 'Drizzle',
+        SH: 'Showers',
+        GR: 'Hail',
+        GS: 'Small Hail',
+        IC: 'Ice Crystals',
+        PL: 'Ice Pellets',
+        SG: 'Snow Grains',
+        SQ: 'Squalls',
+        TS: 'Thunderstorms',
+        FC: 'Funnel Cloud',
+        PO: 'Dust Whirls',
+        DS: 'Duststorm',
+        SS: 'Sandstorm'
+    };
+    return weatherConditions[code] || 'Unknown';
+}
+
+function getCloudCover(code) {
+    const cloudCovers = {
+        SCT: 'Scattered',
+        BKN: 'Broken',
+        OVC: 'Overcast'
+    };
+    return cloudCovers[code] || 'Unknown';
 }
