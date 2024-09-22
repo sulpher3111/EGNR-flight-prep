@@ -8,22 +8,27 @@
     <script defer src="script.js"></script>
 </head>
 <body>
+
     <header>
         <h1>Student Pilot Flight Preparation</h1>
         <h2>Merseyflight - Hawarden Airport EGNR</h2>
     </header>
 
+    <!-- ATIS Section -->
     <section id="atis-section">
-        <h3>Current ATIS Information</h3>
+        <h3>ATIS Information</h3>
         <div id="atis-info">
             <p>Loading ATIS information...</p>
         </div>
-        <div id="wind-compass">
-            <canvas id="windCanvas" width="300" height="300"></canvas>
-            <div id="wind-knots"></div>
-        </div>
     </section>
 
+    <!-- Runway-Wind Diagram -->
+    <section id="runway-wind-diagram">
+        <h3>Runway and Wind Information</h3>
+        <canvas id="runwayCanvas" width="400" height="300"></canvas>
+    </section>
+
+    <!-- Flight Preparation Form -->
     <section id="flight-prep">
         <h3>Flight Preparation</h3>
         <form id="flight-form">
@@ -60,5 +65,6 @@
             <button type="submit">Submit</button>
         </form>
     </section>
+
 </body>
 </html>

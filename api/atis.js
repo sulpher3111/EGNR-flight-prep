@@ -37,10 +37,10 @@ function parseATIS(atisRaw) {
     const wind = atisRaw.match(/(\d{3})(\d{2})KT/);
     const variability = atisRaw.match(/(\d{3})V(\d{3})/);
 
-    // Parsing visibility (correct regex to avoid capturing unrelated numbers)
+    // Parsing visibility
     const visibilityMatches = atisRaw.match(/(\b\d{4}\b)(SW|SE|NW|NE)?/g);
 
-    // Parsing weather (improved to avoid incorrect matches)
+    // Parsing weather
     const weather = atisRaw.match(/(?:\s|^)(-|\+|VC)?(RA|DZ|SN|SG|IC|PL|GR|GS|BR|FG|FU|VA|DU|SA|HZ|PY|PO|SQ|FC|SS|DS)(?:\s|$)/);
 
     // Parsing cloud layers
@@ -52,6 +52,15 @@ function parseATIS(atisRaw) {
     // Parsing altimeter (QNH)
     const qnh = atisRaw.match(/Q(\d{4})/);
 
+    // Parsing runway condition codes
+    const runwayCondition = atisRaw.match(/RWY\d{2} RUNWAY CONDITION CODES:([\d\/]+)/);
+
+    // Parsing transition level
+    const transitionLevel = atisRaw.match(/TRANSITION-LEVEL FL (\d{2})/);
+
+    // Parsing forecast (if available)
+    const forecast = atisRaw.match(/FORECAST (.+)/);
+
     // Assign values to the object
     atis.station = station ? station[1] : 'Unknown';
     atis.informationCode = informationCode ? informationCode[1] : 'Unknown';
@@ -62,7 +71,7 @@ function parseATIS(atisRaw) {
         variability: variability ? `Variable between ${variability[1]}° and ${variability[2]}°` : 'No variability'
     };
 
-    // Handle multiple visibility values (e.g., 9999 and 8000SW)
+    // Handle visibility
     if (visibilityMatches) {
         atis.visibility = visibilityMatches.map(v => {
             const match = v.match(/(\b\d{4}\b)(SW|SE|NW|NE)?/);
@@ -75,7 +84,7 @@ function parseATIS(atisRaw) {
         atis.visibility = 'Not reported';
     }
 
-    // Handle weather parsing (improved to avoid false matches)
+    // Handle weather
     if (weather) {
         const intensity = weather[1] ? (weather[1] === '+' ? 'Heavy ' : 'Light ') : '';
         const condition = getWeatherCondition(weather[2]);
@@ -94,6 +103,15 @@ function parseATIS(atisRaw) {
     atis.temperature = temperatureDewPoint ? temperatureDewPoint[1] : 'Unknown';
     atis.dewPoint = temperatureDewPoint ? temperatureDewPoint[2] : 'Unknown';
     atis.qnh = qnh ? qnh[1] : 'Unknown';
+
+    // Add runway condition codes
+    atis.runwayCondition = runwayCondition ? runwayCondition[1] : 'Not reported';
+
+    // Add transition level
+    atis.transitionLevel = transitionLevel ? `FL ${transitionLevel[1]}` : 'Not reported';
+
+    // Add forecast
+    atis.forecast = forecast ? forecast[1] : 'Not available';
 
     return atis;
 }
