@@ -37,10 +37,10 @@ function parseATIS(atisRaw) {
     const wind = atisRaw.match(/(\d{3})(\d{2})KT/);
     const variability = atisRaw.match(/(\d{3})V(\d{3})/);
 
-    // Parsing visibility
-    const visibility = atisRaw.match(/(\d{4})\s?(SW|SE|NW|NE)?/g); // Handles multiple visibility values
+    // Parsing visibility (9999 and optional SW direction)
+    const visibility = atisRaw.match(/(\d{4})(SW|SE|NW|NE)?/g); // Handles multiple visibility values
 
-    // Parsing weather
+    // Parsing weather (focus on weather conditions like RA for rain)
     const weather = atisRaw.match(/(-|\+|VC)?(RA|DZ|SN|SG|IC|PL|GR|GS|BR|FG|FU|VA|DU|SA|HZ|PY|PO|SQ|FC|SS|DS)/);
 
     // Parsing cloud layers
@@ -64,7 +64,13 @@ function parseATIS(atisRaw) {
 
     // Handle multiple visibility values (e.g., 9999 and 8000SW)
     if (visibility) {
-        atis.visibility = visibility.map(v => v.trim()).join(', ');
+        atis.visibility = visibility.map(v => {
+            const match = v.match(/(\d{4})(SW|SE|NW|NE)?/);
+            if (match) {
+                return match[2] ? `${match[1]} meters ${match[2]}` : `${match[1]} meters`;
+            }
+            return 'Unknown';
+        }).join(', ');
     } else {
         atis.visibility = 'Not reported';
     }
@@ -80,7 +86,7 @@ function parseATIS(atisRaw) {
 
     // Handle cloud layers
     if (cloud) {
-        atis.cloudLayers = `${getCloudCover(cloud[1])} at ${cloud[2]}00 feet`;
+        atis.cloudLayers = `${getCloudCover(cloud[1])} at ${parseInt(cloud[2]) * 100} feet`;
     } else {
         atis.cloudLayers = 'No data available';
     }
