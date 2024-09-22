@@ -40,8 +40,8 @@ function parseATIS(atisRaw) {
     // Parsing visibility (correct regex to avoid capturing unrelated numbers)
     const visibilityMatches = atisRaw.match(/(\b\d{4}\b)(SW|SE|NW|NE)?/g);
 
-    // Parsing weather
-    const weather = atisRaw.match(/(-|\+|VC)?(RA|DZ|SN|SG|IC|PL|GR|GS|BR|FG|FU|VA|DU|SA|HZ|PY|PO|SQ|FC|SS|DS)/);
+    // Parsing weather (improved to avoid incorrect matches)
+    const weather = atisRaw.match(/(?:\s|^)(-|\+|VC)?(RA|DZ|SN|SG|IC|PL|GR|GS|BR|FG|FU|VA|DU|SA|HZ|PY|PO|SQ|FC|SS|DS)(?:\s|$)/);
 
     // Parsing cloud layers
     const cloud = atisRaw.match(/(BKN|SCT|OVC)(\d{3})/);
@@ -75,7 +75,7 @@ function parseATIS(atisRaw) {
         atis.visibility = 'Not reported';
     }
 
-    // Handle weather parsing
+    // Handle weather parsing (improved to avoid false matches)
     if (weather) {
         const intensity = weather[1] ? (weather[1] === '+' ? 'Heavy ' : 'Light ') : '';
         const condition = getWeatherCondition(weather[2]);
@@ -101,24 +101,26 @@ function parseATIS(atisRaw) {
 function getWeatherCondition(code) {
     const weatherConditions = {
         RA: 'Rain',
+        DZ: 'Drizzle',
         SN: 'Snow',
+        SG: 'Snow Grains',
+        IC: 'Ice Crystals',
+        PL: 'Ice Pellets',
+        GR: 'Hail',
+        GS: 'Small Hail',
         BR: 'Mist',
         FG: 'Fog',
         FU: 'Smoke',
+        VA: 'Volcanic Ash',
+        DU: 'Widespread Dust',
+        SA: 'Sand',
         HZ: 'Haze',
-        DZ: 'Drizzle',
-        SH: 'Showers',
-        GR: 'Hail',
-        GS: 'Small Hail',
-        IC: 'Ice Crystals',
-        PL: 'Ice Pellets',
-        SG: 'Snow Grains',
-        SQ: 'Squalls',
-        TS: 'Thunderstorms',
-        FC: 'Funnel Cloud',
+        PY: 'Spray',
         PO: 'Dust Whirls',
-        DS: 'Duststorm',
-        SS: 'Sandstorm'
+        SQ: 'Squalls',
+        FC: 'Funnel Cloud',
+        SS: 'Sandstorm',
+        DS: 'Duststorm'
     };
     return weatherConditions[code] || 'Unknown';
 }
